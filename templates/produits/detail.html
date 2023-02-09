@@ -1,0 +1,432 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<!-- main wrapper -->
+<div class="main-wrapper">
+
+        <!-- breadcrumb -->
+        <nav class="bg-gray py-3">
+                <div class="container">
+                        <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home:home' %}">Accueil</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ product.category.get_absolute_url  }}">{{ product.category }}</a></li>
+                                <li class="breadcrumb-item" aria-current="page">{{ product.titre }}</li>
+                        </ol>
+                </div>
+        </nav>
+        <!-- /breadcrumb -->
+
+<!-- product-single -->
+<section class="section">
+        <div class="container">
+                <div class="row">
+                        <div class="col-lg-6 mb-4 mb-lg-0">
+                                <!-- product image slider -->
+                                <div class="product-slider">
+                                        <div data-image="{% if product.image_sm_1 %}{{ product.image_sm_1.url }}{% else %}{% static 'images/product-single/no_image.png' %}{% endif %}">
+                                                <img class="img-fluid w-100 image-zoom"
+                                                        src="{% if product.image_sm_1 %}{{ product.image_sm_1.url }}{% else %}{% static 'images/product-single/no_image.png' %}{% endif %}" alt="product-img"
+                                                        data-zoom="{% if product.image_sm_1 %}{{ product.image_sm_1.url }}{% else %}{% static 'images/product-single/no_image.png' %}{% endif %}">
+                                        </div>
+                                        <div data-image="{% if product.image_sm_2 %}{{ product.image_sm_2.url }}{% else %}{% static 'images/product-single/no_image.png' %}{% endif %}">
+                                                <img class="img-fluid w-100 image-zoom"
+                                                        src="{% if product.image_sm_2 %}{{ product.image_sm_2.url }}{% else %}{% static 'images/product-single/no_image.png' %}{% endif %}" alt="product-img"
+                                                        data-zoom="{% if product.image_sm_2 %}{{ product.image_sm_2.url }}{% else %}{% static 'images/product-single/no_image.png' %}{% endif %}">
+                                        </div>
+                                        <div data-image="{% if product.image_sm_3 %}{{ product.image_sm_3.url }}{% else %}{% static 'images/product-single/no_image.png' %}{% endif %}">
+                                                <img class="img-fluid w-100 image-zoom"
+                                                        src="{% if product.image_sm_3 %}{{ product.image_sm_3.url }}{% else %}{% static 'images/product-single/no_image.png' %}{% endif %}" alt="product-img"
+                                                        data-zoom="{% if product.image_sm_3 %}{{ product.image_sm_3.url }}{% else %}{% static 'images/product-single/no_image.png' %}{% endif %}">
+                                        </div>
+                                </div>
+                        </div>
+                        <!-- produt details -->
+                        <div class="col-lg-6 mb-100">
+                                <h2>{{ product.titre }}</h2>
+                                <i class="ti-check-box text-success"></i>
+                                {% if product.en_stock %}
+                                <span class="text-success">En Stock</span>
+                                {% else %}
+                                <span class="text-success">Rupture de Stock</span>
+                                {% endif %}
+                                <ul class="list-inline mb-4">
+                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i class="ti-star"></i></a></li>
+                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i class="ti-star"></i></a></li>
+                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i class="ti-star"></i></a></li>
+                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i class="ti-star"></i></a></li>
+                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i class="ti-star"></i></a></li>
+                                        <li class="list-inline-item"><a href="#" class="text-gray ml-3">( 3 Reviews)</a></li>
+                                </ul>
+                                <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                {% csrf_token %}
+                                <h4 class="text-primary h3">{{ product.price }} € <s class="text-color ml-2">{{ product.prix_ancien }} €</s></h4>
+                                <h6 class="mb-4">You save: <span class="text-primary">{{ product.get_percentage | floatformat:0}} %</span></h6>
+
+                                <div class="d-flex flex-column flex-sm-row justify-content-between mb-4">
+                                        <!-- <input id="quantity" class="quantity mr-sm-2 mb-3 mb-sm-0" type="text" value=""
+                                                name="quantity"> -->
+                                                        {{ cart_product_form.quantity }}
+
+                                        <select class="form-control mx-sm-2 mb-3 mb-sm-0" name="color">
+                                                <option value="brown">Brown Color</option>
+                                                <option value="gray">Gray Color</option>
+                                                <option value="black">Black Color</option>
+                                        </select>
+
+                                        <select class="form-control ml-sm-2 mb-3 mb-sm-0" name="size">
+                                                <option class="form-control" value="small">Small Size</option>
+                                                <option value="medium">Medium Size</option>
+                                                <option value="large">Large Size</option>
+                                        </select>
+                                </div>
+                                <input class="btn btn-primary mb-4" type="submit" value="Add to cart">
+                                <!-- <a href="" class="btn btn-primary mb-4">add to cart</a> -->
+                                <h4 class="mb-3"><span class="text-primary">Harry up!</span> Sale ends in</h4>
+                                <!-- syo-timer -->
+
+                                <div class="syotimer dark">
+                                        <div id="sale-timer" data-year="2019" data-month="5" data-day="1" data-hour="1">
+                                        </div>
+                                </div>
+                                <hr>
+                                <div class="payment-option border border-primary mt-5 mb-4">
+                                        <h5 class="bg-white">Guaranted Safe Checkout</h5>
+                                        <img class="img-fluid w-100 p-3" src="{% static 'images/payment-card/all-card.png' %}"
+                                                alt="payment-card">
+                                </div>
+                                <h5 class="mb-3">4 Raisons de choisir KDS</h5>
+                                <div class="row">
+                                        <!-- service item -->
+                                        <div class="col-lg-3 col-6 mb-4 mb-lg-0">
+                                                <div class="d-flex">
+                                                        <i class="ti-truck icon-md mr-3"></i>
+                                                        <div class="align-items-center">
+                                                                <h6>Livraison Gratuite</h6>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <!-- service item -->
+                                        <div class="col-lg-3 col-6 mb-4 mb-lg-0">
+                                                <div class="d-flex">
+                                                        <i class="ti-shield icon-md mr-3"></i>
+                                                        <div class="align-items-center">
+                                                                <h6> Paiement Sécurisé</h6>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <!-- service item -->
+                                        <div class="col-lg-3 col-6 mb-4 mb-lg-0">
+                                                <div class="d-flex">
+                                                        <i class="ti-money icon-md mr-3"></i>
+                                                        <div class="align-items-center">
+                                                                <h6>Lowest Price</h6>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <!-- service item -->
+                                        <div class="col-lg-3 col-6 mb-4 mb-lg-0">
+                                                <div class="d-flex">
+                                                        <i class="ti-reload icon-md mr-3"></i>
+                                                        <div class="align-items-center">
+                                                                <h6>30 Days Return</h6>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                        <div class="col-lg-12">
+                                <h3 class="mb-3"> Description du product</h3>
+                                <p class="text-gray mb-4">{{ product.description|linebreaks }}</p>
+                                <h4>Caractéristiques du product</h4>
+                                <ul class="features-list">
+                                        <li>Mapped with 3M™ Thinsulate™ Insulation [40G Body / Sleeves / Hood]</li>
+                                        <li>Embossed Taffeta Lining</li>
+                                        <li>DRYRIDE Durashell™ 2-Layer Oxford Fabric [10,000MM, 5,000G]</li>
+                                </ul>
+                        </div>
+                        </form>
+                </div>
+        </div>
+</section>
+<!-- /product-single -->
+
+<!-- testimonial -->
+<section class="section bg-gray">
+        <div class="container">
+                <div class="row">
+                        <div class="col-lg-12">
+                                <h3 class="mb-4">What Our Customers Think?</h3>
+                        </div>
+                        <!-- testimonial-item -->
+                        <div class="col-lg-4 col-sm-6 mb-5 mb-lg-0">
+                                <div class="d-flex">
+                                        <div>
+                                                <img class="rounded-circle mr-4" src="{% static 'images/customer/customer-1.jpg' %}"
+                                                        alt="customer-img">
+                                        </div>
+                                        <div>
+                                                <ul class="list-inline">
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                </ul>
+                                                <h4 class="text-dark">Best quality for the price</h4>
+                                                <p class="text-gray">Sed ut perspiciatis unde omnis iste natus error sit
+                                                        voluptatem accusantium doloremqe
+                                                        laudant tota rem ape riamipsa eaque.</p>
+                                                <h5 class="customer-name text-dark">Maggie Scott</h5>
+                                        </div>
+                                </div>
+                        </div>
+                        <!-- testimonial-item -->
+                        <div class="col-lg-4 col-sm-6 mb-5 mb-lg-0">
+                                <div class="d-flex">
+                                        <div>
+                                                <img class="rounded-circle mr-4" src="{% static 'images/customer/customer-2.jpg' %}"
+                                                        alt="customer-img">
+                                        </div>
+                                        <div>
+                                                <ul class="list-inline">
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                </ul>
+                                                <h4 class="text-dark">Best quality for the price</h4>
+                                                <p class="text-gray">Sed ut perspiciatis unde omnis iste natus error sit
+                                                        voluptatem accusantium doloremqe
+                                                        laudant tota rem ape riamipsa eaque.</p>
+                                                <h5 class="customer-name text-dark">Maggie Scott</h5>
+                                        </div>
+                                </div>
+                        </div>
+                        <!-- testimonial-item -->
+                        <div class="col-lg-4 col-sm-6 mb-5 mb-lg-0">
+                                <div class="d-flex">
+                                        <div>
+                                                <img class="rounded-circle mr-4" src="{% static 'images/customer/customer-3.jpg' %}"
+                                                        alt="customer-img">
+                                        </div>
+                                        <div>
+                                                <ul class="list-inline">
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                        <li class="list-inline-item mx-0"><a href="#" class="rated"><i
+                                                                                class="ti-star"></i></a></li>
+                                                </ul>
+                                                <h4 class="text-dark">Best quality for the price</h4>
+                                                <p class="text-gray">Sed ut perspiciatis unde omnis iste natus error sit
+                                                        voluptatem accusantium doloremqe
+                                                        laudant tota rem ape riamipsa eaque.</p>
+                                                <h5 class="customer-name text-dark">Maggie Scott</h5>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</section>
+<!-- /testimonial -->
+
+<!-- related products -->
+<section class="section">
+        <div class="container">
+                <div class="row">
+                        <div class="col-lg-12">
+                                <h2 class="mb-4">Related Products</h2>
+                        </div>
+                        <!-- product -->
+                        <div class="col-lg-3 col-sm-6 mb-5 mb-lg-0">
+                                <div class="product text-center">
+                                        <div class="product-thumb">
+                                                <div class="overflow-hidden position-relative">
+                                                        <a href="product-single.html">
+                                                                <img class="img-fluid w-100 mb-3 img-first"
+                                                                        src="{% static 'images/collection/product-2.jpg' %}"
+                                                                        alt="product-img">
+                                                                <img class="img-fluid w-100 mb-3 img-second"
+                                                                        src="{% static 'images/collection/product-5.jpg' %}"
+                                                                        alt="product-img">
+                                                        </a>
+                                                        <div class="btn-cart">
+                                                                <a href="#" class="btn btn-primary btn-sm">Add To
+                                                                        Cart</a>
+                                                        </div>
+                                                </div>
+                                                <div class="product-hover-overlay">
+                                                        <a href="#" class="product-icon favorite" data-toggle="tooltip"
+                                                                data-placement="left" title="Wishlist"><i
+                                                                        class="ti-heart"></i></a>
+                                                        <a href="#" class="product-icon cart" data-toggle="tooltip"
+                                                                data-placement="left" title="Compare"><i
+                                                                        class="ti-direction-alt"></i></a>
+                                                        <a data-vbtype="inline" href="#quickView"
+                                                                class="product-icon view venobox" data-toggle="tooltip"
+                                                                data-placement="left" title="Quick View"><i
+                                                                        class="ti-search"></i></a>
+                                                </div>
+                                        </div>
+                                        <div class="product-info">
+                                                <h3 class="h5"><a class="text-color" href="product-single.html">Box
+                                                                Leather Shoulder Bag</a></h3>
+                                                <span class="h5">$520.79</span>
+                                        </div>
+                                        <!-- product label badge -->
+                                        <div class="product-label new">
+                                                new
+                                        </div>
+                                </div>
+                        </div>
+                        <!-- //end of product -->
+                        <!-- product -->
+                        <div class="col-lg-3 col-sm-6 mb-5 mb-lg-0">
+                                <div class="product text-center">
+                                        <div class="product-thumb">
+                                                <div class="overflow-hidden position-relative">
+                                                        <a href="product-single.html">
+                                                                <img class="img-fluid w-100 mb-3 img-first"
+                                                                        src="{% static 'images/collection/product-3.jpg' %}"
+                                                                        alt="product-img">
+                                                                <img class="img-fluid w-100 mb-3 img-second"
+                                                                        src="{% static 'images/collection/product-6.jpg' %}"
+                                                                        alt="product-img">
+                                                        </a>
+                                                        <div class="btn-cart">
+                                                                <a href="#" class="btn btn-primary btn-sm">Add To
+                                                                        Cart</a>
+                                                        </div>
+                                                </div>
+                                                <div class="product-hover-overlay">
+                                                        <a href="#" class="product-icon favorite" data-toggle="tooltip"
+                                                                data-placement="left" title="Wishlist"><i
+                                                                        class="ti-heart"></i></a>
+                                                        <a href="#" class="product-icon cart" data-toggle="tooltip"
+                                                                data-placement="left" title="Compare"><i
+                                                                        class="ti-direction-alt"></i></a>
+                                                        <a data-vbtype="inline" href="#quickView"
+                                                                class="product-icon view venobox" data-toggle="tooltip"
+                                                                data-placement="left" title="Quick View"><i
+                                                                        class="ti-search"></i></a>
+                                                </div>
+                                        </div>
+                                        <div class="product-info">
+                                                <h3 class="h5"><a class="text-color" href="product-single.html">Sneaky
+                                                                Leather Sneakers</a></h3>
+                                                <span class="h5">$270.79</span>
+                                        </div>
+                                        <!-- product label badge -->
+                                        <div class="product-label sale">
+                                                -10%
+                                        </div>
+                                </div>
+                        </div>
+                        <!-- //end of product -->
+                        <!-- product -->
+                        <div class="col-lg-3 col-sm-6 mb-5 mb-lg-0">
+                                <div class="product text-center">
+                                        <div class="product-thumb">
+                                                <div class="overflow-hidden position-relative">
+                                                        <a href="product-single.html">
+                                                                <img class="img-fluid w-100 mb-3 img-first"
+                                                                        src="{% static 'images/collection/product-4.jpg' %}"
+                                                                        alt="product-img">
+                                                                <img class="img-fluid w-100 mb-3 img-second"
+                                                                        src="{% static 'images/collection/product-2.jpg' %}"
+                                                                        alt="product-img">
+                                                        </a>
+                                                        <div class="btn-cart">
+                                                                <a href="#" class="btn btn-primary btn-sm">Add To
+                                                                        Cart</a>
+                                                        </div>
+                                                </div>
+                                                <div class="product-hover-overlay">
+                                                        <a href="#" class="product-icon favorite" data-toggle="tooltip"
+                                                                data-placement="left" title="Wishlist"><i
+                                                                        class="ti-heart"></i></a>
+                                                        <a href="#" class="product-icon cart" data-toggle="tooltip"
+                                                                data-placement="left" title="Compare"><i
+                                                                        class="ti-direction-alt"></i></a>
+                                                        <a data-vbtype="inline" href="#quickView"
+                                                                class="product-icon view venobox" data-toggle="tooltip"
+                                                                data-placement="left" title="Quick View"><i
+                                                                        class="ti-search"></i></a>
+                                                </div>
+                                        </div>
+                                        <div class="product-info">
+                                                <h3 class="h5"><a class="text-color" href="product-single.html">Puzzle leather shoulder bag</a></h3>
+                                                <span class="h5">$400.79</span>
+                                        </div>
+                                        <!-- product label badge -->
+                                        <div class="product-label new">
+                                                new
+                                        </div>
+                                </div>
+                        </div>
+                        <!-- //end of product -->
+                        <!-- product -->
+                        <div class="col-lg-3 col-sm-6 mb-5 mb-lg-0">
+                                <div class="product text-center">
+                                        <div class="product-thumb">
+                                                <div class="overflow-hidden position-relative">
+                                                        <a href="product-single.html">
+                                                                <img class="img-fluid w-100 mb-3 img-first"
+                                                                        src="{% static 'images/collection/product-6.jpg' %}"
+                                                                        alt="product-img">
+                                                                <img class="img-fluid w-100 mb-3 img-second"
+                                                                        src="{% static 'images/collection/product-1.jpg' %}"
+                                                                        alt="product-img">
+                                                        </a>
+                                                        <div class="btn-cart">
+                                                                <a href="#" class="btn btn-primary btn-sm">Add To
+                                                                        Cart</a>
+                                                        </div>
+                                                </div>
+                                                <div class="product-hover-overlay">
+                                                        <a href="#" class="product-icon favorite" data-toggle="tooltip"
+                                                                data-placement="left" title="Wishlist"><i
+                                                                        class="ti-heart"></i></a>
+                                                        <a href="#" class="product-icon cart" data-toggle="tooltip"
+                                                                data-placement="left" title="Compare"><i
+                                                                        class="ti-direction-alt"></i></a>
+                                                        <a data-vbtype="inline" href="#quickView"
+                                                                class="product-icon view venobox" data-toggle="tooltip"
+                                                                data-placement="left" title="Quick View"><i
+                                                                        class="ti-search"></i></a>
+                                                </div>
+                                        </div>
+                                        <div class="product-info">
+                                                <h3 class="h5"><a class="text-color" href="product-single.html">Puzzle
+                                                                leather shoulder bag</a></h3>
+                                                <span class="h5">$400.79</span>
+                                        </div>
+                                </div>
+                        </div>
+                        <!-- //end of product -->
+                </div>
+        </div>
+        </div>
+</section>
+<!-- /related products -->
+
+
+{% endblock content %}

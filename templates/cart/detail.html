@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block title %}Shopping cart{% endblock %}
+
+{% load static %}
+
+
+{% block content %}
+
+<!-- main wrapper -->
+<div class="main-wrapper">
+        <!-- breadcrumb -->
+                <nav class="bg-gray py-3">
+                        <div class="container">
+                                <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="{% url 'home:home' %}">Accueil</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ product.category.get_absolute_url  }}"> Category</a></li>
+                                        <li class="breadcrumb-item" aria-current="page"> Product</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                                </ol>
+                        </div>
+                </nav>
+        <!-- /breadcrumb -->
+
+        <div class="section">
+                <div class="cart shopping">
+                        <div class="container">
+                                <div class="row">
+                                        <div class="col-md-10 mx-auto">
+                                                <div class="block">
+                                                        <div class="product-list">
+                                                                <form method="#">
+                                                                        <div class="table-responsive">
+                                                                                <table class="table cart-table">
+                                                                                        <thead>
+                                                                                                <tr>
+                                                                                                        <th></th>
+
+                                                                                                        <th>Image</th>
+                                                                                                        <th>Produit  </th>
+                                                                                                        <th>Price</th>
+                                                                                                        <th>Quantité</th>
+                                                                                                        <th>Prix Total
+                                                                                                        </th>
+                                                                                                </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                                {% for item in cart %}
+                                                                                                {% with product=item.product %}
+                                                                                                <tr>
+                                                                                                        <td>
+                                                                                                                <!-- <a class="product-remove" href="">&times;</a> -->
+                                                                                                                <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+                                                                                                                        <input type="submit" value="Remove">
+                                                                                                                        {% csrf_token %}
+                                                                                                                </form>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                                <div
+                                                                                                                        class="product-info">
+                                                                                                                        <img class="img-fluid"
+                                                                                                                                src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/no_image.png' %}{% endif %}"  width="63" height=""  alt="product-img" />
+                                                                                                                </div>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                                <div class="product-info">
+                                                                                                                        <a href="{{ product.get_absolute_url }}">{{ product.titre }}</a>
+                                                                                                                </div>
+                                                                                                        </td>
+                                                                                                        <td>${{ item.price }}</td>
+                                                                                                        <td >
+                                                                                                                <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                                                                                                        {{ item.update_quantity_form.quantity }}
+                                                                                                                        {{ item.update_quantity_form.override }}
+
+                                                                                                                        <input type="submit" value="Update">
+                                                                                                                        {% csrf_token %}
+                                                                                                                        </form>
+                                                                                                        </td>
+                                                                                                        <td>${{ item.total_price }}</td>
+                                                                                                </tr>
+                                                                                                {% endwith %}
+                                                                                                {% endfor %}
+                                                                                        </tbody>
+                                                                                </table>
+                                                                        </div>
+                                                                        <hr>
+                                                                        <div
+                                                                                class="d-flex flex-column flex-md-row align-items-center">
+                                                                                <input type="text"
+                                                                                        class="form-control text-md-left text-center mb-3 mb-md-0"
+                                                                                        name="coupon" id="coupon"
+                                                                                        placeholder="I have a discout coupon">
+                                                                                <button
+                                                                                        class="btn btn-outline-primary ml-md-3 w-100 mb-3 mb-md-0">Apply Coupon</button>
+                                                                                <a href="#" class="btn ml-md-4 btn-dark w-100">Update Cart</a>
+                                                                        </div>
+                                                                        <hr>
+                                                                        <div class="row">
+                                                                                <div class="col-12">
+                                                                                        <ul
+                                                                                                class="list-unstyled text-right">
+                                                                                                <li>Total <span class="d-inline-block w-100px">${{ cart.get_total_price }}</span>
+                                                                                                </li>
+                                                                                                <!-- <li>UK Vat <span class="d-inline-block w-100px">$10.00</span></li>
+                                                                                                <li>Grand Total <span class="d-inline-block w-100px">$10.00</span></li> -->
+                                                                                        </ul>
+                                                                                </div>
+                                                                        </div>
+                                                                        <hr>
+                                                                        <a href="{% url 'cœur:product_list' %}" class="button light">Continue shopping</a>
+                                                                        <a href="{% url 'orders:order_create' %}" class="btn btn-primary float-right">Checkout</a>
+                                                                </form>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+        {% endblock %}

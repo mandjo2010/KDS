@@ -1,0 +1,60 @@
+{% load static %}
+<!-- header -->
+
+<header>
+        <!-- top advertise -->
+        <!-- <div class="alert alert-secondary alert-dismissible fade show rounded-0 pb-0 mb-0" role="alert">
+    <div class="d-flex justify-content-between">
+      <p>SAVE UP TO $50</p>
+      <h4>SALE!</h4>
+      <div class="shop-now">
+        <a href="shop.html" class="btn btn-sm btn-primary">Shop Now</a>
+      </div>
+    </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div> -->
+
+        <!-- top header -->
+        <div class="top-header">
+                <div class="row">
+                        <div class="col-lg-6 text-center text-lg-left">
+                                <p class="text-white mb-lg-0 mb-1">Free shipping • Free 30 days return • Express
+                                        delivery</p>
+                        </div>
+                        <div class="col-lg-6 text-center text-lg-right">
+                                <ul class="list-inline">
+                                        <li class="list-inline-item"><img src="{% static 'images/flag.jpg' %}" alt="flag"></li>
+                                        {% if request.user.is_authenticated %}
+                                        <li class="list-inline-item"><a href="{% url 'utilisateurs:logout' %}">Déconnexion</a></li>
+                                        {% else %}
+                                        <li class="list-inline-item"><a href="{% url 'utilisateurs:login' %}">Mon Compte</a></li>
+                                        {% endif %}
+                                        <li class="list-inline-item">
+                                                <form action="#">
+                                                        <select class="country" name="country">
+                                                                <option value="USD">USD</option>
+                                                                <option value="JPN">JPN</option>
+                                                                <option value="BAN">BAN</option>
+                                                        </select>
+                                                </form>
+                                        </li>
+                                                <!-- <li class="list-inline-item">
+            <a class="active" href="#">EN</a>
+            <a href="#">FR</a>
+          </li> -->
+                                </ul>
+                        </div>
+                </div>
+        </div>
+        <!-- /top-header -->
+        {% if messages %}
+                {% for message in messages %}
+                        <div class="alert alert-{{message.tags}}">
+                                <strong>{{message}}</strong>
+                        </div>
+                {% endfor %}
+        {% endif %}
+
+</header>

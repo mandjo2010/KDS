@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+                {% include 'partials/head.html' %}
+
+<body>
+                <!--== Start Header Wrapper ==-->
+                {% include 'partials/preloader.html' %}
+                <!--== End Header Wrapper ==-->
+
+                <!--== Start Header Wrapper ==-->
+                {% include 'partials/header.html' %}
+                <!--== End Header Wrapper ==-->
+                
+                <!--== Start Header Wrapper ==-->
+                {% include 'partials/nav.html' %}
+                <!--== End Header Wrapper ==-->
+
+                {% block content %}
+                <!-- contenu -->
+                {% endblock content %}
+
+                {% include 'partials/footer.html' %}
+                {% include 'partials/scripts.html' %}
+
+</body>
+</html>
